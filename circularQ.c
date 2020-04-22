@@ -12,22 +12,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_QUEUE_SIZE 4					    // Queue의 최대 크기 4
+#define MAX_QUEUE_SIZE 4					// Queue의 최대 크기 4
 
-typedef char element;						      // char형 구조체 element 선언, 정의
-typedef struct {							        // 구조체 QueueType 선언, 정의
+typedef char element;						// char형 구조체 element 선언, 정의
+typedef struct {							// 구조체 QueueType 선언, 정의
 	element queue[MAX_QUEUE_SIZE];			// queue의 저장되는 값은 문자형
 	int front, rear;
 }QueueType;
 
 
-QueueType *createQueue();					  // Queue를 만들기 위한 함수
+QueueType *createQueue();					// Queue를 만들기 위한 함수
 int isEmpty(QueueType *cQ);					// Queue가 비어있을 때 경고를 출력하기 위한 함수
 int isFull(QueueType *cQ);					// Queue가 가득 차있을 때 경고를 출력하기 위한 함수
 void enQueue(QueueType *cQ, element item);	// Queue에 값을 Push하기 위한 함수
 void deQueue(QueueType *cQ, element* item);	// Queue에 저장된 값을 Pop하기 위한 함수
 void printQ(QueueType *cQ);					// Queue에 저장되어있는 값들을 출력하기 위한 함수
 void debugQ(QueueType *cQ);					// Queue에 관련된 변수 (queue에 저장되어있는 값, front, rear의 위치)의 값을 알려주는 함수
+int freeQueue(QueueType *cQ);				// Queue에 할당된 메모리를 해제해주기 위한 함수
 
 element getElement();						// Queue에 값을 넣기 전 어떤 값을 넣을지 입력받는 함수
 
@@ -66,6 +67,7 @@ int main(void)								// 메인함수 시작
 			debugQ(cQ);						// debugQ() 실행
 			break;							// switch 탈출
 		case 'q': case 'Q':					// command == q || command == Q
+			freeQueue(cQ);					// freeQueue() 실행
 			break;							// switch 탈출
 		default:							// 잘못된 명령어를 입력할 경우
 			printf("\n       >>>>>   Concentration!!   <<<<<     \n");		// 경고메세지 출력
@@ -180,4 +182,9 @@ void debugQ(QueueType *cQ)									// Queue에 저장된 원소, front, rear의 
 	}
 	printf("front = %d, rear = %d\n", cQ->front, cQ->rear);	// front와 rear의 위치 출력
 }
-
+int freeQueue(QueueType *cQ){				// Queue에 할당된 메모리를 해제해주기 위한 함수 정의
+	if(cQ == NULL)							// 만약 cQ에 아무것도 할당되어있지 않으면
+		return 1;							// 아무것도 하지 않고 1 반환
+	else free(cQ);							// Queue에 메모리가 할당되어있으면
+	return 1;								// 메모리를 해제하고 1 반환
+}
