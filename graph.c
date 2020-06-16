@@ -35,15 +35,15 @@ typedef struct Graph {
 } Graph;
 
 
-Graph* createGraph(Graph* graph);          /* empty graph creation */
-int destroyGraph(Graph* graph);            /* deallocating all allocated memory */
+Graph* createGraph(Graph* graph);  /* empty graph creation */
+int destroyGraph(Graph* graph); /* deallocating all allocated memory */
 int insertVertex(Graph* graph, int v_num); /* vertex insertion */
 int deleteVertex(Graph* graph, int v_num); /* vertex deletion */
 int insertEdge(Graph* graph, int v1_num, int v2_num);   /* new edge creation between two vertices */
 int deleteEdge(Graph* graph, int v1_num, int v2_num);   /* edge removal */
-void depthFS(Graph* graph);                 /* depth first search using stack */
-void breadthFS(Graph* graph);               /* breadth first search using queue */
-int printGraph(Graph* graph);               /* printing graph with vertices and edges */
+void depthFS(Graph* graph);      /* depth first search using stack */
+void breadthFS(Graph* graph);    /* breadth first search using queue */
+int printGraph(Graph* graph);   /* printing graph with vertices and edges */
 int Check_vlist(Graph* graph, int vertex);      // vlist에 해당하는 Vertex가 존재하는지 확인하기 위한 함수
 int Check_visit_list(Graph* graph, Vertex* Search_Node, int* visit_list);   // 해당 Vertex가 방문했는지 기록하기 위한 함수
 Vertex* Move_next(Graph* graph, Vertex* Search_Vertex);     // Edge의 num과 같은 값을 가진 Vertex로 이동하기 위한 함수
@@ -219,6 +219,15 @@ int insertVertex(Graph* graph, int v_num) {      /* vertex insertion */
     if(vertex_count++ == 0)             // 만약 Vertex가 첫번째로 삽입되는 Vertex이고
         if(delete_count > 0)            // 이미 이전에 삭제된 Vertex가 있고 그 값이 증가해 있다면
             delete_count--;             // delete_count값 감소
+
+    if(vertex_count + delete_count >= MAX_VERTEX){
+        vertex_count = 0, delete_count = 0;
+        for(i = 0; i < MAX_VERTEX; i++){
+            if((graph->vlist+i)->head != NULL)
+                vertex_count++;
+        }
+        delete_count = MAX_VERTEX - vertex_count;
+    }
 
     return 1;
 }
