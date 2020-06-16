@@ -220,13 +220,13 @@ int insertVertex(Graph* graph, int v_num) {      /* vertex insertion */
         if(delete_count > 0)            // 이미 이전에 삭제된 Vertex가 있고 그 값이 증가해 있다면
             delete_count--;             // delete_count값 감소
 
-    if(vertex_count + delete_count >= MAX_VERTEX){
-        vertex_count = 0, delete_count = 0;
-        for(i = 0; i < MAX_VERTEX; i++){
+    if(vertex_count + delete_count >= MAX_VERTEX){	// 만약 vertex_count와 delete_count가 최대치를 넘으면 오류가 생기므로
+        vertex_count = 0, delete_count = 0;		// vertex_count와 delete_count를 0으로 초기화 하고
+        for(i = 0; i < MAX_VERTEX; i++){		// Vertex가 존재하는 수만큼 vertex_count ++을 해줍니다.
             if((graph->vlist+i)->head != NULL)
                 vertex_count++;
         }
-        delete_count = MAX_VERTEX - vertex_count;
+        delete_count = MAX_VERTEX - vertex_count;	// 이후 delete_count는 최대치에서 Vertex의 개수만큼 뺀 값을 저장합니다.
     }
 
     return 1;
